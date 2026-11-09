@@ -1,0 +1,26 @@
+name: Assemble overview diagram
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "media/.upload/overview-*.b64"
+      - ".github/workflows/assemble-overview.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  assemble:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Assemble WebP image
+        run: |
+          cat media/.upload/overview-*.b64 | tr -d '\n' | base64 -d > media/nmea-wifi-bridge-overview.webp
+          file media/nmea-wifi-bridge-overview.webp
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add media/nmea-wifi-bridge-overview.webp
+          git commit -m "Добавить обновлённую схему NMEA Wi-Fi Bridge"
+          git push
