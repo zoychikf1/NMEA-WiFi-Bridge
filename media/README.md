@@ -4,7 +4,7 @@
 
 - [Глубина и SonarChart Live](sonarchart-live.png) — скриншот карты с данными от эхолота.
 - [Подключение эхолота](navionics-connection.png) — скриншот приложения, получающего данные.
-- [Видео работы моста](nmea-wifi-bridge-demo.mp4) — короткая демонстрация без звука.
+- [Скачать видео работы моста (MP4)](https://raw.githubusercontent.com/zoychikf1/NMEA-WiFi-Bridge/main/media/nmea-wifi-bridge-demo.mp4) — короткая демонстрация без звука.
 
 Эти материалы показаны также на [главной странице проекта](../README.md#фото-и-видео-работы).
 
