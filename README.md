@@ -47,7 +47,7 @@
 | <img src="media/sonarchart-live.png" alt="Navionics Boating — текущая глубина и SonarChart Live" width="260"> | <img src="media/navionics-connection.png" alt="Navionics Boating — подключённый эхолот" width="260"> |
 | Текущая глубина и построение своих изобат прямо на карте. | Приложение получает данные от подключённого эхолота. |
 
-🎬 **[Посмотреть видео работы NMEA Wi-Fi Bridge](media/nmea-wifi-bridge-demo.mp4)** — примерно минута, без звука.
+🎬 **[Скачать видео работы NMEA Wi-Fi Bridge (MP4, 8,95 МБ)](https://raw.githubusercontent.com/zoychikf1/NMEA-WiFi-Bridge/main/media/nmea-wifi-bridge-demo.mp4)** — примерно минута, без звука. Файл можно посмотреть после скачивания. Для встроенного проигрывателя потребуется добавить видео как вложение GitHub.
 
 *Скриншоты из Navionics Boating приведены для демонстрации совместимости и работы моста. Navionics и SonarChart Live принадлежат своим правообладателям; этот любительский проект не связан с Garmin/Navionics.*
 
