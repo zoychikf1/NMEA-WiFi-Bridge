@@ -1,89 +1,95 @@
 # NMEA Wi-Fi Bridge
 
-*A small DIY project for getting NMEA 0183 data from a boat's chartplotter or fish finder to a phone or tablet over Wi-Fi.*
+**Беспроводная передача данных NMEA 0183 с эхолота или картплоттера на телефон или планшет.**
 
-I built this because I wanted to get data from my own fish finder onto a mobile device without running another cable across the boat. It turned into a little ESP8266-based project — and I thought it might be useful to other boaters and anglers too.
+Это небольшой самодельный проект, который вырос из вполне практичной задачи: хотелось получать данные со своего эхолота на мобильное устройство, но не тянуть к телефону ещё один провод через всю лодку.
 
-This is a personal hobby project, not a commercial product. The idea is simple: share what works, document the build, and make it easier for someone else to try.
+В итоге получился мост на ESP8266, который принимает NMEA 0183 и передаёт данные по Wi-Fi. Решил описать конструкцию и поделиться результатом — возможно, она пригодится другим водномоторникам и рыбакам.
 
-## What does it do?
+Это хобби-проект, а не коммерческое изделие. Главная цель — поделиться рабочим решением, опытом сборки и настройками, чтобы другие могли повторить его или использовать как основу для своих идей.
 
-The bridge receives NMEA 0183 data from a marine instrument and forwards it over a local Wi-Fi network as UDP packets.
+## Что он делает?
 
-In simple terms:
+Устройство принимает данные NMEA 0183 от бортового оборудования и передаёт их по локальной сети Wi-Fi в виде UDP-пакетов.
+
+Упрощённо схема выглядит так:
 
 ```text
-Chartplotter / fish finder
-          |
-      NMEA 0183
-          |
-     RS-422 receiver
-          |
-       ESP8266
-          |
-    Wi-Fi / UDP broadcast
-          |
-     Phone or tablet
+Эхолот / картплоттер
+        |
+     NMEA 0183
+        |
+   Приёмник RS-422
+        |
+      ESP8266
+        |
+   Wi-Fi / UDP broadcast
+        |
+  Телефон или планшет
 ```
 
-A navigation app that can receive NMEA data over UDP can then use the information without a direct cable connection to the chartplotter.
+Если навигационное приложение умеет принимать данные NMEA по UDP, оно сможет получать их от эхолота через Wi-Fi — без отдельного кабеля от прибора к телефону или планшету.
 
-- **Wireless connection** — send instrument data to a phone or tablet over Wi-Fi.
-- **No cloud account or internet connection required** — the NMEA data is sent over the local network.
-- **Simple, inexpensive hardware** — the prototype uses readily available modules.
-- **Useful alongside existing equipment** — keep using your chartplotter; the bridge provides another way to access its NMEA output.
+### Зачем это может быть полезно
 
-## My current setup
+- **Меньше проводов.** Данные с бортового прибора можно передавать на телефон или планшет по Wi-Fi.
+- **Без облака.** Для передачи NMEA используется локальная сеть; подключение к интернету для самого обмена данными не требуется.
+- **Недорогая конструкция.** В прототипе используются доступные и недорогие модули.
+- **Работает вместе с существующим оборудованием.** Не нужно заменять эхолот или картплоттер — используется его выход NMEA 0183.
+- **Можно адаптировать под себя.** Проект можно повторить, доработать или взять за основу для собственного устройства.
 
-The first working version was built and tested with:
+## На чём собран мой рабочий прототип
 
-| Part | What I used |
+| Компонент | Использованная модель |
 |---|---|
-| Controller | LOLIN D1 mini V4 (ESP8266) |
-| NMEA interface | YL-128 RS-422 receiver board with MAX490 |
-| NMEA source | Lowrance Elite-4 HDI |
-| NMEA speed | 4800 baud |
-| Wireless output | UDP broadcast over Wi-Fi |
-| Tested client | Navionics Boating on Android |
+| Контроллер | LOLIN D1 mini V4 (ESP8266) |
+| Интерфейс NMEA | Плата YL-128 с приёмником MAX490 (RS-422) |
+| Источник данных | Lowrance Elite-4 HDI |
+| Скорость NMEA | 4800 бод |
+| Передача по Wi-Fi | UDP broadcast |
+| Проверенное приложение | Navionics Boating на Android |
 
-This is a tested example, not a list of the only compatible devices. Other chartplotters, fish finders and apps may work too, provided their NMEA settings and UDP support are compatible.
+Это конфигурация, на которой я проверил работу устройства. Она не означает, что подходят только перечисленные модели: другие эхолоты, картплоттеры и приложения тоже могут работать, если совместимы настройки NMEA и приём данных по UDP.
 
-## Current status
+## Что уже работает, а что ещё в процессе
 
-The basic NMEA-to-Wi-Fi forwarding works with the setup listed above.
+Основная функция — приём NMEA и передача данных по Wi-Fi — проверена на указанной выше конфигурации.
 
-A few things are still evolving:
+На данный момент:
 
-- Wi-Fi client (STA) mode has been tested.
-- Standalone access-point mode is experimental. Connection behaviour, especially with iOS devices, still needs work.
-- More chartplotters, phones and navigation apps need to be tested.
+- Режим подключения к существующей сети Wi-Fi (STA) работает.
+- Передача UDP проверена с Navionics Boating на Android.
+- Режим самостоятельной точки доступа (AP) пока экспериментальный. В частности, ещё нужно разобраться с устойчивым подключением устройств на iOS.
+- Совместимость с другими моделями эхолотов, картплоттеров, телефонов и навигационных приложений ещё предстоит проверить.
 
-I'll add more wiring details, setup notes and troubleshooting tips as the documentation grows.
+Документацию, схемы подключения и инструкции буду добавлять постепенно — по мере испытаний и доработок.
 
-## Android companion app
+## Приложение для Android
 
-There is also a small Android app that discovers the bridge on the local network and opens its web interface:
+Есть отдельное небольшое Android-приложение: оно находит мост в локальной сети и открывает его веб-интерфейс.
 
-[NMEA Bridge Android](https://github.com/zoychikf1/NMEA-Bridge-Android)
+[ NMEA Bridge Android — приложение на GitHub ](https://github.com/zoychikf1/NMEA-Bridge-Android)
 
-The companion app is separate from the NMEA data connection. If your navigation app can receive the bridge's UDP broadcast directly, you do not need the discovery app just to receive NMEA data.
+Оно нужно для поиска устройства и доступа к его веб-интерфейсу. Для приёма самих NMEA-данных оно не обязательно: если ваше навигационное приложение умеет самостоятельно принимать UDP-пакеты, можно подключаться напрямую.
 
-## A note about the project
+## Важно
 
-This is a DIY hobby project, not certified marine equipment. It is provided as-is, without warranty. Please check your wiring and installation carefully, and do not rely on it as your only source of navigation or safety information. Your existing marine instruments should remain the primary equipment.
+Это самодельное устройство, а не сертифицированное морское оборудование. Проект предоставляется «как есть», без каких-либо гарантий. Перед подключением внимательно проверяйте распиновку, уровни сигналов и монтаж.
 
-## Tried it on your boat?
+Не используйте мост как единственный источник навигационной информации или средство обеспечения безопасности. Штатное бортовое оборудование должно оставаться основным.
 
-I'd be glad to hear about other working combinations. If you test the bridge, please share:
+## Проверили у себя?
 
-- chartplotter or fish finder model;
-- NMEA output settings / baud rate;
-- phone or tablet model and operating system;
-- navigation app used;
-- anything that did not work as expected.
+Буду рад узнать, с каким оборудованием получилось подружить устройство. Если решите повторить сборку или просто проверить совместимость, напишите:
 
-Bug reports, corrections and practical suggestions are welcome. The whole point is to make this useful to fellow boaters and anglers.
+- модель эхолота или картплоттера;
+- настройки выхода NMEA и скорость передачи;
+- модель телефона или планшета и версию операционной системы;
+- какое навигационное приложение использовали;
+- что заработало, а что не получилось.
+
+Замечания, исправления и практические советы приветствуются. Чем больше реальных проверок на разных лодках, тем полезнее будет проект для всех.
 
 ---
 
-*Built on a boat, tested on the water, improved when time allows.*
+*Сделано для своей лодки. Делюсь, чтобы пригодилось и другим.*
